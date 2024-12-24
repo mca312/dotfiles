@@ -3,7 +3,7 @@ DOTFILES_DIR := ${PWD}
 
 # Neovim
 NVIM_SOURCE := $(DOTFILES_DIR)/nvim
-NVIM_TARGET := $(HOME)/.config/nvim
+NVIM_TARGET := $(HOME)/.config/
 
 # Git
 GITCONFIG_SOURCE := $(DOTFILES_DIR)/git/.gitconfig

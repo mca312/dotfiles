@@ -153,4 +153,5 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
   export EDITOR=vim
 #### END ####
 
-if [[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local
+[[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local
+
