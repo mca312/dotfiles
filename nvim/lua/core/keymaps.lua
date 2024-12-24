@@ -24,8 +24,7 @@ vim.keymap.set('n', '<C-S-Right>', ':vertical resize +2<CR>', opts)
 -- Buffers
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
 vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
-vim.keymap.set('n', '<leader>x', ':Bdelete!<CR>', opts)   -- close buffer
-vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', opts) -- new buffer
+vim.keymap.set('n', '<leader>bx', ':Bdelete!<CR>', opts)
 
 -- Increment/decrement numbers
 vim.keymap.set('n', '<leader>+', '<C-a>', opts) -- increment
@@ -81,18 +80,22 @@ vim.keymap.set('n', '<leader>do', function()
   diagnostics_active = not diagnostics_active
 
   if diagnostics_active then
-    vim.diagnostic.enable(0)
+    vim.diagnostic.enable(true)
   else
-    vim.diagnostic.disable(0)
+    vim.diagnostic.enable(false)
   end
 end)
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+vim.keymap.set('n', '<leader>dd', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- Save and load session
+vim.keymap.set('n', '<leader>dj', function()
+  vim.diagnostic.jump({ count = 1, severity = { min = vim.diagnostic.severity.WARN } })
+end, { desc = 'Jump to next error' })
+vim.keymap.set('n', '<leader>db', function()
+  vim.diagnostic.jump({ count = 1, severity = { min = vim.diagnostic.severity.WARN } })
+end, { desc = 'Jump to previous error' })
 vim.keymap.set('n', '<leader>ss', ':mksession! .session.vim<CR>', { noremap = true, silent = false })
 vim.keymap.set('n', '<leader>sl', ':source .session.vim<CR>', { noremap = true, silent = false })
