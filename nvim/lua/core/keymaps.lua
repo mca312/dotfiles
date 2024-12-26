@@ -14,6 +14,19 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz', opts)
 
 vim.keymap.set('n', 'n', 'nzzzv', opts)
 vim.keymap.set('n', 'N', 'Nzzzv', opts)
+vim.keymap.set('n', '<C-f>', '<C-f>zz', opts)
+vim.keymap.set('n', '<C-b>', '<C-b>zz', opts)
+vim.keymap.set('n', 'J', 'mzJ`z', opts)
+vim.keymap.set('n', '<C-d>', '<C-d>zz', opts)
+vim.keymap.set('n', '<C-u>', '<C-u>zz', opts)
+vim.keymap.set('n', '<C-j>', 'jzz', opts)
+vim.keymap.set('n', '<C-k>', 'kzz', opts)
+
+vim.keymap.set('x', "<leader>p", '"_dP', opts)
+
+-- Move lines up and down
+vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv', opts)
+vim.keymap.set('v', 'K', ':m \'<-2<CR>gv=gv', opts)
 
 -- Resize with arrows
 vim.keymap.set('n', '<C-S-Up>', ':resize -2<CR>', opts)
