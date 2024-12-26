@@ -112,7 +112,64 @@ return { -- LSP Configuration & Plugins
     local servers = {
       html = { filetypes = { 'html', 'twig', 'hbs' } },
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-      ts_ls = {},
+      volar = {
+        init_options = {
+          vue = {
+            hybridMode = false,
+          },
+        },
+        settings = {
+          typescript = {
+            inlayHints = {
+              enumMemberValues = {
+                enabled = true,
+              },
+              functionLikeReturnTypes = {
+                enabled = true,
+              },
+              propertyDeclarationTypes = {
+                enabled = true,
+              },
+              parameterTypes = {
+                enabled = true,
+                suppressWhenArgumentMatchesName = true,
+              },
+              variableTypes = {
+                enabled = true,
+              },
+            },
+          },
+        },
+      },
+      -- TypeScript
+      ts_ls = {
+        init_options = {
+          plugins = {
+            {
+              name = '@vue/typescript-plugin',
+              location = vim.fn.stdpath 'data' .. '/mason/packages/vue-language-server/node_modules/@vue/language-server',
+              languages = { 'vue' },
+            },
+          },
+        },
+        settings = {
+          typescript = {
+            tsserver = {
+              useSyntaxServer = false,
+            },
+            inlayHints = {
+              includeInlayParameterNameHints = 'all',
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+        },
+      },
       lua_ls = {
         -- cmd = {...},
         -- filetypes { ...},
@@ -151,6 +208,7 @@ return { -- LSP Configuration & Plugins
       cssls = {},
       ltex = {},
       texlab = {},
+      gopls = {},
     }
 
     -- Ensure the servers and tools above are installed
