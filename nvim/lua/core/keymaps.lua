@@ -2,7 +2,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
-local opts = { noremap = true, silent = true}
+local opts = { noremap = true, silent = true }
 
 vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', opts)
 
@@ -21,12 +21,16 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz', opts)
 vim.keymap.set('n', '<C-u>', '<C-u>zz', opts)
 vim.keymap.set('n', '<C-j>', 'jzz', opts)
 vim.keymap.set('n', '<C-k>', 'kzz', opts)
+vim.keymap.set('n', '[m', '[mzz', opts)
+vim.keymap.set('n', ']m', ']mzz', opts)
+vim.keymap.set('n', '[M', '[Mzz', opts)
+vim.keymap.set('n', ']M', ']Mzz', opts)
 
-vim.keymap.set('x', "<leader>p", '"_dP', opts)
+vim.keymap.set('x', '<leader>p', '"_dP', opts)
 
 -- Move lines up and down
-vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv', opts)
-vim.keymap.set('v', 'K', ':m \'<-2<CR>gv=gv', opts)
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", opts)
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", opts)
 
 -- Resize with arrows
 vim.keymap.set('n', '<C-S-Up>', ':resize -2<CR>', opts)
@@ -87,7 +91,6 @@ vim.keymap.set('n', '<leader>j', '*``cgn', opts)
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
 vim.keymap.set('n', '<leader>Y', [["+Y]])
 
-
 local diagnostics_active = true
 
 vim.keymap.set('n', '<leader>do', function()
@@ -106,10 +109,10 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 
 -- Save and load session
 vim.keymap.set('n', '<leader>dj', function()
-  vim.diagnostic.jump({ count = 1, severity = { min = vim.diagnostic.severity.WARN } })
+  vim.diagnostic.jump { count = 1, severity = { min = vim.diagnostic.severity.WARN } }
 end, { desc = 'Jump to next error' })
 vim.keymap.set('n', '<leader>db', function()
-  vim.diagnostic.jump({ count = 1, severity = { min = vim.diagnostic.severity.WARN } })
+  vim.diagnostic.jump { count = 1, severity = { min = vim.diagnostic.severity.WARN } }
 end, { desc = 'Jump to previous error' })
 vim.keymap.set('n', '<leader>ss', ':mksession! .session.vim<CR>', { noremap = true, silent = false })
 vim.keymap.set('n', '<leader>sl', ':source .session.vim<CR>', { noremap = true, silent = false })
