@@ -5,10 +5,6 @@ DOTFILES_DIR := ${PWD}
 NVIM_SOURCE := $(DOTFILES_DIR)/nvim
 NVIM_TARGET := $(HOME)/.config/
 
-# Git
-GITCONFIG_SOURCE := $(DOTFILES_DIR)/git/.gitconfig
-GITCONFIG_TARGET := $(HOME)/.gitconfig
-
 # Tmux
 TMUX_CONF_SOURCE := $(DOTFILES_DIR)/tmux/.tmux.conf
 TMUX_CONF_TARGET := $(HOME)/.tmux.conf
@@ -26,11 +22,11 @@ ZPROFILE_TARGET := $(HOME)/.zprofile
 P10K_SOURCE := $(DOTFILES_DIR)/zsh/.p10k.zsh
 P10K_TARGET := $(HOME)/.p10k.zsh
 
-.PHONY: all install clean nvim git tmux zsh
+.PHONY: all install clean nvim tmux zsh
 
 all: install
 
-install: nvim git tmux zsh
+install: nvim tmux zsh
 
 # Neovim symlink
 nvim:
@@ -38,12 +34,6 @@ nvim:
 	@mkdir -p $(HOME)/.config
 	@ln -sf $(NVIM_SOURCE) $(NVIM_TARGET)
 	@echo "Symlink created: $(NVIM_TARGET) -> $(NVIM_SOURCE)"
-
-# Git symlink
-git:
-	@echo "Creating symlink for Git configuration..."
-	@ln -sf $(GITCONFIG_SOURCE) $(GITCONFIG_TARGET)
-	@echo "Symlink created: $(GITCONFIG_TARGET) -> $(GITCONFIG_SOURCE)"
 
 # Tmux symlink
 tmux:
@@ -64,13 +54,10 @@ zsh:
 	@echo "Symlinks created for Zsh configuration."
 
 # Clean up symlinks
-clean: clean-nvim clean-git clean-tmux clean-zsh
+clean: clean-nvim clean-tmux clean-zsh
 
 clean-nvim:
 	@rm -f $(NVIM_TARGET)
-
-clean-git:
-	@rm -f $(GITCONFIG_TARGET)
 
 clean-tmux:
 	@rm -f $(TMUX_CONF_TARGET)
