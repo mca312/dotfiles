@@ -94,7 +94,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
   alias docker_clean_containers='docker ps -aq --no-trunc | xargs docker rm'
   alias docker_clean_images='docker rmi $(docker images -q -f dangling=true)'
 
-  alias ogh='basePWD=$(basename "$PWD");open "https://github.com/jackboxgames/$basePWD"'
+  alias ogh='open $(git config --get remote.origin.url | sed -E "s#git@github.com:(.*)#https://github.com/\1#" | sed "s/.git$//")'
   alias vi='nvim'
   alias vim='nvim'
 #### END ####
