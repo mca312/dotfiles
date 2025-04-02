@@ -50,19 +50,12 @@ M.setup_neotree = function()
   vim.keymap.set('n', '\\', ':Neotree reveal<CR>', { silent = true, desc = 'Reveal file in Neotree' })
 end
 
--- Formatting keymaps
-M.setup_formatting = function()
-  vim.keymap.set('n', '<leader>f', function()
-    vim.lsp.buf.format { async = true }
-  end, { desc = 'Format file' })
-end
-
 -- Comment.nvim keymaps
 M.setup_comment = function()
-  local comment_api = require('Comment.api')
-  vim.keymap.set('n', '<C-_>', comment_api.toggle.linewise.current, opts)
-  vim.keymap.set('n', '<C-c>', comment_api.toggle.linewise.current, opts)
-  vim.keymap.set('n', '<C-/>', comment_api.toggle.linewise.current, opts)
+  local opts = { noremap = true, silent = true }
+  vim.keymap.set('n', '<C-_>', require('Comment.api').toggle.linewise.current, opts)
+  vim.keymap.set('n', '<C-c>', require('Comment.api').toggle.linewise.current, opts)
+  vim.keymap.set('n', '<C-/>', require('Comment.api').toggle.linewise.current, opts)
   vim.keymap.set('v', '<C-_>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", opts)
   vim.keymap.set('v', '<C-c>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", opts)
   vim.keymap.set('v', '<C-/>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", opts)
@@ -70,12 +63,19 @@ end
 
 -- Trouble.nvim keymaps
 M.setup_trouble = function()
-  vim.keymap.set('n', '<leader>xx', '<cmd>Trouble diagnostics toggle<cr>', { desc = 'Diagnostics (Trouble)' })
-  vim.keymap.set('n', '<leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', { desc = 'Buffer Diagnostics (Trouble)' })
-  vim.keymap.set('n', '<leader>cs', '<cmd>Trouble symbols toggle focus=false<cr>', { desc = 'Symbols (Trouble)' })
-  vim.keymap.set('n', '<leader>cl', '<cmd>Trouble lsp toggle focus=false win.position=right<cr>', { desc = 'LSP Definitions / references / ... (Trouble)' })
-  vim.keymap.set('n', '<leader>xL', '<cmd>Trouble loclist toggle<cr>', { desc = 'Location List (Trouble)' })
-  vim.keymap.set('n', '<leader>xQ', '<cmd>Trouble qflist toggle<cr>', { desc = 'Quickfix List (Trouble)' })
+  vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics (Trouble)" })
+  vim.keymap.set("n", "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Buffer Diagnostics (Trouble)" })
+  vim.keymap.set("n", "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", { desc = "Symbols (Trouble)" })
+  vim.keymap.set("n", "<leader>cl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", { desc = "LSP Definitions / references / ... (Trouble)" })
+  vim.keymap.set("n", "<leader>xL", "<cmd>Trouble loclist toggle<cr>", { desc = "Location List (Trouble)" })
+  vim.keymap.set("n", "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", { desc = "Quickfix List (Trouble)" })
+end
+
+-- Formatting keymaps
+M.setup_formatting = function()
+  vim.keymap.set('n', '<leader>f', function()
+    vim.lsp.buf.format { async = true }
+  end, { desc = 'Format file' })
 end
 
 -- Copilot keymaps
@@ -84,14 +84,55 @@ M.setup_copilot = function()
   vim.keymap.set('i', '<C-j>', 'copilot#Accept("<C-n>")', { replace_keycodes = false, expr = true, silent = true, desc = 'Accept Copilot suggestion' })
 end
 
+-- Bufferline keymaps
+M.setup_bufferline = function()
+  -- These are commented out in your original config, but I'll include them for reference
+  -- vim.keymap.set("n", "<Tab>", "<Cmd>BufferLineCycleNext<CR>", {})
+  -- vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", {})
+  -- vim.keymap.set('n', '<leader>1', "<cmd>lua require('bufferline').go_to_buffer(1)<CR>", { desc = 'Go to Buffer 1' })
+  -- vim.keymap.set('n', '<leader>2', "<cmd>lua require('bufferline').go_to_buffer(2)<CR>", { desc = 'Go to Buffer 2' })
+  -- vim.keymap.set('n', '<leader>3', "<cmd>lua require('bufferline').go_to_buffer(3)<CR>", { desc = 'Go to Buffer 3' })
+  -- vim.keymap.set('n', '<leader>4', "<cmd>lua require('bufferline').go_to_buffer(4)<CR>", { desc = 'Go to Buffer 4' })
+  -- vim.keymap.set('n', '<leader>5', "<cmd>lua require('bufferline').go_to_buffer(5)<CR>", { desc = 'Go to Buffer 5' })
+  -- vim.keymap.set('n', '<leader>6', "<cmd>lua require('bufferline').go_to_buffer(6)<CR>", { desc = 'Go to Buffer 6' })
+  -- vim.keymap.set('n', '<leader>7', "<cmd>lua require('bufferline').go_to_buffer(7)<CR>", { desc = 'Go to Buffer 7' })
+  -- vim.keymap.set('n', '<leader>8', "<cmd>lua require('bufferline').go_to_buffer(8)<CR>", { desc = 'Go to Buffer 8' })
+  -- vim.keymap.set('n', '<leader>9', "<cmd>lua require('bufferline').go_to_buffer(9)<CR>", { desc = 'Go to Buffer 9' })
+end
+
+-- Diagnostic keymaps
+M.setup_diagnostics = function()
+  vim.keymap.set('n', '<leader>dd', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+  vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+  vim.keymap.set('n', '<leader>dj', function()
+    vim.diagnostic.jump { count = 1, severity = { min = vim.diagnostic.severity.WARN } }
+  end, { desc = 'Jump to next error' })
+  vim.keymap.set('n', '<leader>db', function()
+    vim.diagnostic.jump { count = 1, severity = { min = vim.diagnostic.severity.WARN } }
+  end, { desc = 'Jump to previous error' })
+  
+  -- Diagnostic toggle
+  local diagnostics_active = true
+  vim.keymap.set('n', '<leader>do', function()
+    diagnostics_active = not diagnostics_active
+    if diagnostics_active then
+      vim.diagnostic.enable(true)
+    else
+      vim.diagnostic.enable(false)
+    end
+  end, { desc = 'Toggle diagnostics' })
+end
+
 -- Setup function for initializing plugin keymaps
 M.setup = function()
   pcall(M.setup_telescope)
   pcall(M.setup_neotree)
-  pcall(M.setup_formatting)
   pcall(M.setup_comment)
   pcall(M.setup_trouble)
+  pcall(M.setup_formatting)
   pcall(M.setup_copilot)
+  pcall(M.setup_bufferline)
+  pcall(M.setup_diagnostics)
 end
 
 M.setup()

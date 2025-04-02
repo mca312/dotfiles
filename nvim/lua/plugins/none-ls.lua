@@ -50,8 +50,6 @@ return {
       end,
     }
 
-    vim.keymap.set('n', '<leader>f', function()
-      vim.lsp.buf.format { async = true }
-    end, { desc = 'Format file' })
+    -- Formatting keymap moved to keymaps/plugins.lua
   end,
 }
