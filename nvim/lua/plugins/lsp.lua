@@ -161,6 +161,12 @@ return { -- LSP Configuration & Plugins
       ltex = {},
       texlab = {},
       gopls = {},
+      eslint = {
+        codeActionOnSave = {
+          enable = false,
+          mode = 'all',
+        },
+      },
     }
 
     -- Ensure the servers and tools above are installed

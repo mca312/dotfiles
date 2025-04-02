@@ -43,7 +43,7 @@ return {
             group = augroup,
             buffer = bufnr,
             callback = function()
-              vim.lsp.buf.format { async = false }
+              -- vim.lsp.buf.format { async = false }
             end,
           })
         end
