@@ -1,6 +1,10 @@
 -- Core editor keymaps (non-plugin specific)
 local M = {}
 local opts = { noremap = true, silent = true }
+local function with_desc(description)
+  local new_opts = vim.tbl_extend('force', opts, { desc = description })
+  return new_opts
+end
 
 -- Navigation
 M.setup_navigation = function()
@@ -24,10 +28,10 @@ end
 M.setup_editing = function()
   -- Delete without yanking
   vim.keymap.set('n', 'x', '"_x', opts)
-  
+
   -- Save without auto commands
   vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', opts)
-  
+
   -- Preserve clipboard when pasting over selection
   vim.keymap.set('x', '<leader>p', '"_dP', opts)
   vim.keymap.set('v', 'p', '"_dP', opts)
@@ -47,24 +51,24 @@ M.setup_editing = function()
   vim.keymap.set('n', '<leader>Y', [["+Y]], opts)
 
   -- Replace word under cursor
-  vim.keymap.set('n', '<leader>j', '*``cgn', opts)
+  vim.keymap.set('n', '<leader>rw', '*``cgn', with_desc 'Replace Word')
 
   -- Quick exit from insert mode
   vim.keymap.set('i', 'jk', '<ESC>', opts)
   vim.keymap.set('i', 'kj', '<ESC>', opts)
 
   -- Increment/decrement numbers
-  vim.keymap.set('n', '<leader>+', '<C-a>', opts)
-  vim.keymap.set('n', '<leader>-', '<C-x>', opts)
+  vim.keymap.set('n', '<leader>+', '<C-a>', with_desc 'Increment')
+  vim.keymap.set('n', '<leader>-', '<C-x>', with_desc 'Decrement')
 end
 
 -- Window management
 M.setup_windows = function()
   -- Window splitting
-  vim.keymap.set('n', '<leader>v', '<C-w>v', opts)      -- split window vertically
-  vim.keymap.set('n', '<leader>h', '<C-w>s', opts)      -- split window horizontally
-  vim.keymap.set('n', '<leader>se', '<C-w>=', opts)     -- make split windows equal width & height
-  vim.keymap.set('n', '<leader>xs', ':close<CR>', opts) -- close current split window
+  vim.keymap.set('n', '<leader>wv', '<C-w>v', with_desc 'Split [V]ertical') -- split window vertically
+  vim.keymap.set('n', '<leader>wh', '<C-w>s', with_desc('Split [H]orizontal')) -- split window horizontally
+  vim.keymap.set('n', '<leader>w=', '<C-w>=', with_desc('Split Equal')) -- make split windows equal width & height
+  vim.keymap.set('n', '<leader>wc', ':close<CR>', with_desc('Split [C]lose')) -- close current split window
 
   -- Resize with arrows
   vim.keymap.set('n', '<C-S-Up>', ':resize -2<CR>', opts)
@@ -78,27 +82,27 @@ M.setup_buffers = function()
   -- Buffer navigation
   vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
   vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
-  vim.keymap.set('n', '<leader>bn', '<cmd> enew <CR>', opts) -- new buffer
-  vim.keymap.set('n', '<leader>bx', ':Bdelete!<CR>', opts)   -- close buffer
+  vim.keymap.set('n', '<leader>bn', '<cmd> enew <CR>', with_desc 'New') -- new buffer
+  vim.keymap.set('n', '<leader>bx', ':Bdelete!<CR>', with_desc 'Delete') -- close buffer
 end
 
 -- Tab management
 M.setup_tabs = function()
-  vim.keymap.set('n', '<leader>to', ':tabnew<CR>', opts)   -- open new tab
+  vim.keymap.set('n', '<leader>to', ':tabnew<CR>', opts) -- open new tab
   vim.keymap.set('n', '<leader>tx', ':tabclose<CR>', opts) -- close current tab
-  vim.keymap.set('n', '<leader>tn', ':tabn<CR>', opts)     -- go to next tab
-  vim.keymap.set('n', '<leader>tp', ':tabp<CR>', opts)     -- go to previous tab
+  vim.keymap.set('n', '<leader>tn', ':tabn<CR>', opts) -- go to next tab
+  vim.keymap.set('n', '<leader>tp', ':tabp<CR>', opts) -- go to previous tab
 end
 
 -- Toggles and utilities
 M.setup_toggles = function()
   -- Line wrapping toggle
   vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
-  
+
   -- Session management
   vim.keymap.set('n', '<leader>ss', ':mksession! .session.vim<CR>', { noremap = true, silent = false })
   vim.keymap.set('n', '<leader>sl', ':source .session.vim<CR>', { noremap = true, silent = false })
-  
+
   -- Diagnostics toggle
   local diagnostics_active = true
   vim.keymap.set('n', '<leader>do', function()

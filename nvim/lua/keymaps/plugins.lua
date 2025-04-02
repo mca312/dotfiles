@@ -6,7 +6,7 @@ local opts = { noremap = true, silent = true }
 -- Telescope keymaps
 M.setup_telescope = function()
   local builtin = require('telescope.builtin')
-  
+
   vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
   vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch existing [B]uffers' })
   vim.keymap.set('n', '<leader>sm', builtin.marks, { desc = '[S]earch [M]arks' })
@@ -44,21 +44,8 @@ end
 
 -- Neo-Tree keymaps
 M.setup_neotree = function()
-  vim.keymap.set('n', '<leader>w', ':Neotree toggle float<CR>', { silent = true, desc = 'Float File Explorer' })
   vim.keymap.set('n', '<leader>e', ':Neotree toggle position=left<CR>', { silent = true, desc = 'Left File Explorer' })
   vim.keymap.set('n', '<leader>ngs', ':Neotree float git_status<CR>', { silent = true, desc = 'Neotree Open Git Status Window' })
-  vim.keymap.set('n', '\\', ':Neotree reveal<CR>', { silent = true, desc = 'Reveal file in Neotree' })
-end
-
--- Comment.nvim keymaps
-M.setup_comment = function()
-  local opts = { noremap = true, silent = true }
-  vim.keymap.set('n', '<C-_>', require('Comment.api').toggle.linewise.current, opts)
-  vim.keymap.set('n', '<C-c>', require('Comment.api').toggle.linewise.current, opts)
-  vim.keymap.set('n', '<C-/>', require('Comment.api').toggle.linewise.current, opts)
-  vim.keymap.set('v', '<C-_>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", opts)
-  vim.keymap.set('v', '<C-c>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", opts)
-  vim.keymap.set('v', '<C-/>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", opts)
 end
 
 -- Trouble.nvim keymaps

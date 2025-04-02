@@ -29,6 +29,7 @@ require('lazy').setup {
 	require 'plugins.trouble',
 	require 'plugins.markdown',
 	require 'plugins.comment',
+	require 'plugins.which-key'
 }
 
 vim.cmd.colorscheme 'catppuccin'
