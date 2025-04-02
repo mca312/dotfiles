@@ -5,10 +5,8 @@ return {
     preset = 'modern',
     win = {
       border = 'rounded', -- none, single, double, rounded, solid, shadow
+      no_overlap = 'false',
       padding = { 2, 2, 2, 2 },
-      wo = {
-        winblend = 10, -- slight transparency
-      },
     },
     layout = {
       width = { min = 20, max = 50 }, -- min and max width of the columns
