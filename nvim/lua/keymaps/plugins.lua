@@ -112,7 +112,7 @@ end
 
 -- DAP keymaps
 -- M.setup_dap = function()
---   vim.keymap('n', '<leader>dbc', function() )
+--   vim.keymap.set('n', '<leader>dbc', function() require('dap').)
 -- end
 
 -- Setup function for initializing plugin keymaps
