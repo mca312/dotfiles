@@ -61,7 +61,7 @@ M.setup = function(event)
   map('<leader>dj', function()
     vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.WARN } })
   end, 'Jump to next error')
-  map('<leader>db', function()
+  map('<leader>dp', function()
     vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.WARN } })
   end, 'Jump to previous error')
 end

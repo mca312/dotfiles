@@ -110,6 +110,11 @@ M.setup_diagnostics = function()
   end, { desc = 'Toggle diagnostics' })
 end
 
+-- DAP keymaps
+-- M.setup_dap = function()
+--   vim.keymap('n', '<leader>dbc', function() )
+-- end
+
 -- Setup function for initializing plugin keymaps
 M.setup = function()
   pcall(M.setup_telescope)
@@ -120,6 +125,7 @@ M.setup = function()
   pcall(M.setup_copilot)
   pcall(M.setup_bufferline)
   pcall(M.setup_diagnostics)
+  pcall(M.setup_dap)
 end
 
 M.setup()
