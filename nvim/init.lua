@@ -1,5 +1,5 @@
 require 'core.options'
-require 'core.keymaps'
+require 'keymaps'
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -19,6 +19,7 @@ require('lazy').setup {
 	require 'plugins.treesitter',
 	require 'plugins.telescope',
 	require 'plugins.lsp',
+	require 'plugins.dap',
 	require 'plugins.autocompletion',
 	require 'plugins.none-ls',
 	require 'plugins.gitsigns',
@@ -29,6 +30,7 @@ require('lazy').setup {
 	require 'plugins.trouble',
 	require 'plugins.markdown',
 	require 'plugins.comment',
+	require 'plugins.which-key'
 }
 
 vim.cmd.colorscheme 'catppuccin'

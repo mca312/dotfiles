@@ -2,6 +2,15 @@ return {
   'numToStr/Comment.nvim',
   opts = {},
   config = function()
+    local comment_ok, comment = pcall(require, 'Comment')
+    if not comment_ok then
+      return
+    end
+
+    -- Setup Comment.nvim
+    comment.setup()
+
+    -- Define keybindings directly here to ensure they work
     local opts = { noremap = true, silent = true }
     vim.keymap.set('n', '<C-_>', require('Comment.api').toggle.linewise.current, opts)
     vim.keymap.set('n', '<C-c>', require('Comment.api').toggle.linewise.current, opts)

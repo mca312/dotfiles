@@ -43,15 +43,13 @@ return {
             group = augroup,
             buffer = bufnr,
             callback = function()
-              vim.lsp.buf.format { async = false }
+              -- vim.lsp.buf.format { async = false }
             end,
           })
         end
       end,
     }
 
-    vim.keymap.set('n', '<leader>f', function()
-      vim.lsp.buf.format { async = true }
-    end, { desc = 'Format file' })
+    -- Formatting keymap moved to keymaps/plugins.lua
   end,
 }
