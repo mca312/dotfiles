@@ -5,7 +5,7 @@ local opts = { noremap = true, silent = true }
 
 -- Telescope keymaps
 M.setup_telescope = function()
-  local builtin = require('telescope.builtin')
+  local builtin = require 'telescope.builtin'
 
   vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
   vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch existing [B]uffers' })
@@ -50,12 +50,12 @@ end
 
 -- Trouble.nvim keymaps
 M.setup_trouble = function()
-  vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics (Trouble)" })
-  vim.keymap.set("n", "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Buffer Diagnostics (Trouble)" })
-  vim.keymap.set("n", "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", { desc = "Symbols (Trouble)" })
-  vim.keymap.set("n", "<leader>cl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", { desc = "LSP Definitions / references / ... (Trouble)" })
-  vim.keymap.set("n", "<leader>xL", "<cmd>Trouble loclist toggle<cr>", { desc = "Location List (Trouble)" })
-  vim.keymap.set("n", "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", { desc = "Quickfix List (Trouble)" })
+  vim.keymap.set('n', '<leader>xx', '<cmd>Trouble diagnostics toggle<cr>', { desc = 'Diagnostics (Trouble)' })
+  vim.keymap.set('n', '<leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', { desc = 'Buffer Diagnostics (Trouble)' })
+  vim.keymap.set('n', '<leader>cs', '<cmd>Trouble symbols toggle focus=false<cr>', { desc = 'Symbols (Trouble)' })
+  vim.keymap.set('n', '<leader>cl', '<cmd>Trouble lsp toggle focus=false win.position=right<cr>', { desc = 'LSP Definitions / references / ... (Trouble)' })
+  vim.keymap.set('n', '<leader>xL', '<cmd>Trouble loclist toggle<cr>', { desc = 'Location List (Trouble)' })
+  vim.keymap.set('n', '<leader>xQ', '<cmd>Trouble qflist toggle<cr>', { desc = 'Quickfix List (Trouble)' })
 end
 
 -- Formatting keymaps
@@ -94,10 +94,10 @@ M.setup_diagnostics = function()
   vim.keymap.set('n', '<leader>dj', function()
     vim.diagnostic.jump { count = 1, severity = { min = vim.diagnostic.severity.WARN } }
   end, { desc = 'Jump to next error' })
-  vim.keymap.set('n', '<leader>db', function()
+  vim.keymap.set('n', '<leader>dp', function()
     vim.diagnostic.jump { count = 1, severity = { min = vim.diagnostic.severity.WARN } }
   end, { desc = 'Jump to previous error' })
-  
+
   -- Diagnostic toggle
   local diagnostics_active = true
   vim.keymap.set('n', '<leader>do', function()
@@ -111,15 +111,36 @@ M.setup_diagnostics = function()
 end
 
 -- DAP keymaps
--- M.setup_dap = function()
---   vim.keymap.set('n', '<leader>dbc', function() require('dap').)
--- end
+M.setup_dap = function()
+  vim.keymap.set('n', '<leader>db', require('dap').toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+  vim.keymap.set('n', '<leader>dB', function()
+    require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+  end, { desc = 'Debug: Set Conditional Breakpoint' })
+  vim.keymap.set('n', '<leader>dc', require('dap').continue, { desc = 'Debug: Continue' })
+  vim.keymap.set('n', '<leader>dC', require('dap').run_to_cursor, { desc = 'Debug: Run to Cursor' })
+  vim.keymap.set('n', '<leader>dg', function()
+    require('dap-go').debug_test()
+  end, { desc = 'Debug: Go Test' })
+  vim.keymap.set('n', '<leader>dk', require('dap').step_over, { desc = 'Debug: Step Over' })
+  vim.keymap.set('n', '<leader>di', require('dap').step_into, { desc = 'Debug: Step Into' })
+  vim.keymap.set('n', '<leader>do', require('dap').step_out, { desc = 'Debug: Step Out' })
+  vim.keymap.set('n', '<leader>dl', require('dap').run_last, { desc = 'Debug: Run Last' })
+  vim.keymap.set('n', '<leader>dr', require('dap').repl.open, { desc = 'Debug: Open REPL' })
+  vim.keymap.set('n', '<leader>dq', require('dap').terminate, { desc = 'Debug: Terminate' })
+  vim.keymap.set('n', '<leader>dR', require('dap').restart, { desc = 'Debug: Restart' })
+  vim.keymap.set('n', '<leader>dh', function()
+    require('dap.ui.widgets').hover()
+  end, { desc = 'Debug: Hover Variables' })
+
+  -- UI toggle
+  vim.keymap.set('n', '<leader>du', require('dapui').toggle, { desc = 'Debug: Toggle UI' })
+end
 
 -- Setup function for initializing plugin keymaps
 M.setup = function()
   pcall(M.setup_telescope)
   pcall(M.setup_neotree)
-  pcall(M.setup_comment)
+  -- pcall(M.setup_comment)
   pcall(M.setup_trouble)
   pcall(M.setup_formatting)
   pcall(M.setup_copilot)

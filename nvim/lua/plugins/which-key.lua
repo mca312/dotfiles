@@ -24,11 +24,25 @@ return {
     -- Leader key mappings
     wk.add {
       { '<leader>b', group = 'Buffer' },
-      { '<leader>d', group = 'Diagnostics' },
+      { '<leader>d', group = 'Diagnostics/Debug' },
       { '<leader>g', group = 'Git' },
       { '<leader>s', group = 'Search' },
       { '<leader>w', group = 'Window/Workspace' },
       { '<leader>x', group = 'Trouble/Fixes' },
+    }
+    -- Add nvim-surround keybindings
+    wk.add {
+      { 'ys', desc = 'Surround with...' },
+      { 'yss', desc = 'Surround line with...' },
+      { 'yS', desc = 'Surround with new lines...' },
+      { 'cs', desc = 'Change surrounding...' },
+      { 'ds', desc = 'Delete surrounding...' },
+    }
+
+    -- Visual mode mappings
+    wk.add {
+      { 'S', desc = 'Surround selection with...', mode = 'v' },
+      { 'gS', desc = 'Surround selection with new lines...', mode = 'v' },
     }
   end,
 }
