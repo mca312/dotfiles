@@ -148,25 +148,14 @@ return { -- LSP Configuration & Plugins
           },
         },
       },
-      dockerls = {},
-      docker_compose_language_service = {},
       tailwindcss = {},
-      jsonls = {},
-      sqlls = {},
-      terraformls = {},
-      yamlls = {},
-      bashls = {},
-      graphql = {},
-      cssls = {},
-      ltex = {},
-      texlab = {},
-      gopls = {},
       eslint = {
         codeActionOnSave = {
           enable = false,
           mode = 'all',
         },
       },
+      clangd = { cmd = { 'clangd' } },
     }
 
     -- Ensure the servers and tools above are installed
@@ -175,6 +164,10 @@ return { -- LSP Configuration & Plugins
     -- You can add other tools here that you want Mason to install
     -- for you, so that they are available from within Neovim.
     local ensure_installed = vim.tbl_keys(servers or {})
+    ensure_installed = vim.tbl_filter(function(server)
+      return server ~= 'clangd'
+    end, ensure_installed)
+
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format lua code
     })
@@ -192,5 +185,7 @@ return { -- LSP Configuration & Plugins
         end,
       },
     }
+  require('lspconfig').clangd.setup { cmd = { 'clangd' } }
   end,
 }
+
