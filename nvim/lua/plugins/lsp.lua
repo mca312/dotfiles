@@ -156,6 +156,7 @@ return { -- LSP Configuration & Plugins
         },
       },
       clangd = { cmd = { 'clangd' } },
+      gopls = {},
     }
 
     -- Ensure the servers and tools above are installed
