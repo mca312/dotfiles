@@ -46,7 +46,7 @@ M.setup_editing = function()
   vim.keymap.set('v', '<', '<gv', opts)
   vim.keymap.set('v', '>', '>gv', opts)
 
-  -- Clipboard operations
+ -- Clipboard operations
   vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]], opts)
   vim.keymap.set('n', '<leader>Y', [["+Y]], opts)
 

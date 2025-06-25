@@ -26,6 +26,7 @@ return {
       { '<leader>b', group = 'Buffer' },
       { '<leader>d', group = 'Diagnostics/Debug' },
       { '<leader>g', group = 'Git' },
+      { '<leader>h', group = 'Harpoon' },
       { '<leader>s', group = 'Search' },
       { '<leader>w', group = 'Window/Workspace' },
       { '<leader>x', group = 'Trouble/Fixes' },

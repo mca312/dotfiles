@@ -30,7 +30,9 @@ require('lazy').setup {
 	require 'plugins.markdown',
 	require 'plugins.comment',
 	require 'plugins.which-key',
-	require 'plugins.surround'
+	require 'plugins.surround',
+	require 'plugins.harpoon',
+	require 'plugins.go'
 }
 
 require 'keymaps'

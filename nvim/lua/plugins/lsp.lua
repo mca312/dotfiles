@@ -160,7 +160,19 @@ return { -- LSP Configuration & Plugins
       cssls = {},
       ltex = {},
       texlab = {},
-      gopls = {},
+      gopls = {
+        settings = {
+          gopls = {
+            usePlaceholders = true,
+            completeUnimported = true,
+            staticcheck = true,
+            analyses = {
+              unusedparams = true,
+            },
+          },
+          expandWorkspaceToModule = true,
+        },
+      },
       eslint = {
         codeActionOnSave = {
           enable = false,
@@ -194,3 +206,4 @@ return { -- LSP Configuration & Plugins
     }
   end,
 }
+

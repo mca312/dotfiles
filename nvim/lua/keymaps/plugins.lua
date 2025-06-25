@@ -116,7 +116,7 @@ M.setup_dap = function()
   vim.keymap.set('n', '<leader>dB', function()
     require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
   end, { desc = 'Debug: Set Conditional Breakpoint' })
-  vim.keymap.set('n', '<leader>dc', require('dap').continue, { desc = 'Debug: Continue' })
+  vim.keymap.set('n', '<leader>dc', require('dap').continue, { desc = 'Debug: Start/Continue' })
   vim.keymap.set('n', '<leader>dC', require('dap').run_to_cursor, { desc = 'Debug: Run to Cursor' })
   vim.keymap.set('n', '<leader>dg', function()
     require('dap-go').debug_test()
@@ -133,7 +133,26 @@ M.setup_dap = function()
   end, { desc = 'Debug: Hover Variables' })
 
   -- UI toggle
-  vim.keymap.set('n', '<leader>du', require('dapui').toggle, { desc = 'Debug: Toggle UI' })
+  vim.keymap.set('n', '<leader>du', function() require('dapui').toggle({ reset = true, layout = 'console' }) end, { desc = 'Debug: Toggle UI' })
+end
+
+M.setup_harpoon = function()
+  local harpoon = require('harpoon')
+  vim.keymap.set('n', '<leader>ha', function() harpoon:list():add() end, { desc = 'Add'})
+  vim.keymap.set('n', '<leader>hl', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = 'List'} )
+
+  vim.keymap.set('n', '<leader>h1', function() harpoon:list():select(1) end, { desc = '1'})
+  vim.keymap.set('n', '<leader>h2', function() harpoon:list():select(2) end, { desc = '2'})
+  vim.keymap.set('n', '<leader>h3', function() harpoon:list():select(3) end, { desc = '3'})
+  vim.keymap.set('n', '<leader>h4', function() harpoon:list():select(4) end, { desc = '4'})
+
+  vim.keymap.set('n', '<leader>hn', function() harpoon:list():next() end, { desc = 'Next'})
+  vim.keymap.set('n', '<leader>hp', function() harpoon:list():prev() end, { desc = 'Prev'})
+end
+
+M.setup_go = function()
+  local go = require('go')
+  vim.keymap.set('n', '<leader>gdf', '<cmd>GoTestFunc<CR>', { desc = 'Test Function' })
 end
 
 -- Setup function for initializing plugin keymaps
@@ -147,6 +166,8 @@ M.setup = function()
   pcall(M.setup_bufferline)
   pcall(M.setup_diagnostics)
   pcall(M.setup_dap)
+  pcall(M.setup_harpoon)
+  pcall(M.setup_go)
 end
 
 M.setup()
