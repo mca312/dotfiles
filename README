@@ -1,0 +1,244 @@
+# debian fresh setup
+
+## base build tools
+
+```bash
+sudo apt install build-essential
+```
+
+---
+
+## go
+
+### directory structure
+
+```
+~/go/
+    versions/
+        1.23.5/
+        1.24.0/
+    current -> ~/go/versions/1.24.0   (symlink)
+    bin/
+    pkg/
+    src/
+```
+
+### shell config (~/.bashrc or ~/.zshrc)
+
+```bash
+export GOPATH=~/go
+export GOROOT=~/go/current
+export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+
+goswitch() {
+    ln -sfn ~/go/versions/$1 ~/go/current
+    echo "switched to go $1"
+}
+```
+
+### goinstall script
+
+Save the following as `goinstall` somewhere on your `$PATH` (e.g. `~/go/bin/`), then `chmod +x goinstall`.
+
+```bash
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+GOBASE="$HOME/go"
+VERSIONS_DIR="$GOBASE/versions"
+CURRENT_LINK="$GOBASE/current"
+OS="linux"
+ARCH="amd64"
+
+usage() {
+    echo "usage: goinstall <version>"
+    echo "  example: goinstall 1.24.0"
+    exit 1
+}
+
+if [[ $# -ne 1 ]]; then
+    usage
+fi
+
+VERSION="$1"
+TARBALL="go${VERSION}.${OS}-${ARCH}.tar.gz"
+URL="https://go.dev/dl/${TARBALL}"
+DEST="$VERSIONS_DIR/$VERSION"
+
+if [[ -d "$DEST" ]]; then
+    echo "version $VERSION already installed at $DEST"
+    echo "switching current to $VERSION"
+    ln -sfn "$DEST" "$CURRENT_LINK"
+    echo "done — go $VERSION is now active"
+    exit 0
+fi
+
+echo "creating $VERSIONS_DIR if needed"
+mkdir -p "$VERSIONS_DIR"
+
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+echo "downloading $URL"
+if command -v wget &>/dev/null; then
+    wget -q --show-progress -O "$TMP_DIR/$TARBALL" "$URL"
+elif command -v curl &>/dev/null; then
+    curl -L --progress-bar -o "$TMP_DIR/$TARBALL" "$URL"
+else
+    echo "error: neither wget nor curl found"
+    exit 1
+fi
+
+echo "extracting $TARBALL"
+tar -xf "$TMP_DIR/$TARBALL" -C "$TMP_DIR"
+
+echo "moving to $DEST"
+mv "$TMP_DIR/go" "$DEST"
+
+echo "switching current to $VERSION"
+ln -sfn "$DEST" "$CURRENT_LINK"
+
+echo "done — go $VERSION is now active"
+echo "run: go version"
+```
+
+---
+
+## node (fnm)
+
+```bash
+curl -fsSL https://fnm.vercel.app/install | bash
+```
+
+Reload your shell, then:
+
+```bash
+fnm install 22
+fnm default 22
+```
+
+Add to shell config for auto-switching on `cd`:
+
+```bash
+eval "$(fnm env --use-on-cd)"
+```
+
+Per-project version pinning:
+
+```bash
+echo "22" > .node-version
+```
+
+---
+
+## docker
+
+```bash
+sudo apt install docker.io
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
+Verify:
+
+```bash
+docker run hello-world
+```
+
+---
+
+## avahi
+
+```bash
+sudo apt install avahi-daemon avahi-utils
+```
+
+Useful commands:
+
+```bash
+sudo systemctl status avahi-daemon
+avahi-browse -a
+avahi-resolve -n hostname.local
+```
+
+Your machine will be reachable as `hostname.local` on the network.
+
+---
+
+## tmux
+
+```bash
+sudo apt install tmux
+```
+
+### tpm (plugin manager)
+
+```bash
+mkdir -p ~/.tmux/plugins
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+### ~/.tmux.conf
+
+```bash
+# cheatsheet
+# https://tmuxcheatsheet.com/
+set-option -g set-titles on
+# remap prefix to Ctrl + a
+set -g prefix C-a
+bind C-a send-prefix
+unbind C-b
+# split panes using v and x
+unbind x
+bind v split-window -h
+bind x split-window -v
+unbind '"'
+unbind %
+# enable mouse
+set-option -g mouse on
+# shift-arrow for window nav
+bind -n S-Left previous-window
+bind -n S-Right next-window
+# true color
+set -g default-terminal "tmux-256color"
+set-option -ga terminal-overrides ",xterm-256color:Tc"
+# index panes from 1
+set -g base-index 1
+setw -g pane-base-index 1
+# reload config
+unbind r
+bind r source-file ~/.tmux.conf
+# status bar
+set -g status-position bottom
+set -g status-justify left
+set -g status-left-length 200
+# plugins - prefix + shift+i to install
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'catppuccin/tmux#v0.3.0'
+set -g @catppuccin_flavour 'mocha'
+set -g @catppuccin_status_modules_left "session"
+set -g @catppuccin_status_modules_right "directory date_time"
+set -g @catppuccin_window_status_icon_enable "yes"
+set -g @catppuccin_window_default_text "#W"
+set -g @catppuccin_window_current_text "#W"
+# init tpm - keep at bottom
+run '~/.tmux/plugins/tpm/tpm'
+```
+
+Install plugins inside a tmux session: `ctrl+a shift+i`
+
+---
+
+## nerd fonts (WSL)
+
+Fonts must be installed on **Windows**, not inside WSL — WSL has no display of its own.
+
+1. Download from [nerdfonts.com](https://www.nerdfonts.com/font-downloads)
+2. Extract the zip, select all `.ttf` files, right-click → **Install for all users**
+3. In Windows Terminal: Settings → your WSL profile → Appearance → Font face
+4. Restart Windows Terminal
+
+Recommended fonts: JetBrainsMono, FiraCode, CaskaydiaCove. Use the `NL` variant if you prefer no ligatures.

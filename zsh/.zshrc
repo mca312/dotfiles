@@ -148,10 +148,18 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 #### EXPORTS ####
   export PATH=$PATH:/usr/local/go/bin
   export GOPATH="$HOME/go"
-  export PATH="$GOPATH/bin:$PATH"
+  export GOROOT="$HOME/go/current"
+  export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
   export GIT_EDITOR=vim
   export EDITOR=vim
 #### END ####
 
 [[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local
 
+
+# fnm
+FNM_PATH="/home/mike/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "`fnm env`"
+fi
