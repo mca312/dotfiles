@@ -42,7 +42,7 @@ tmux:
 	@if [ -f $(TMUX_CONF_LOCAL_SOURCE) ]; then ln -sf $(TMUX_CONF_LOCAL_SOURCE) $(TMUX_CONF_LOCAL_TARGET); fi
 	@echo "Symlink created: $(TMUX_CONF_TARGET) -> $(TMUX_CONF_SOURCE)"
 	@if [ -f $(TMUX_CONF_LOCAL_SOURCE) ]; then echo "Symlink created: $(TMUX_CONF_LOCAL_TARGET) -> $(TMUX_CONF_LOCAL_SOURCE)"; fi
-	@ln -sf $(DOTFILES_DIR)/tmux/tmuxinator/terminal.yml $(TMUXINATOR_TARGET)
+	@ln -sf $(DOTFILES_DIR)/tmux/tmuxinator $(TMUXINATOR_TARGET)
 
 # Zsh symlinks
 zsh:
