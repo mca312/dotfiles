@@ -127,9 +127,9 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
   }
 
   # Call the function whenever the directory changes
-  if [ "$SHELL" = "/bin/bash" ]; then
+  if [[ "$SHELL" =~ "\/bash" ]]; then
       PROMPT_COMMAND="update_win_name;$PROMPT_COMMAND"
-  elif [ "$SHELL" = "/bin/zsh" ]; then
+  elif [[ "$SHELL" =~ "\/zsh" ]]; then
       precmd_functions+=(update_win_name)
   fi
 #### END ####
