@@ -81,8 +81,7 @@ fi
 #### EXPORTS ####
   export PATH="$HOME/.local/bin:$PATH"
   export GOPATH="$HOME/go"
-  export GOROOT="$HOME/go/current"
-  export PATH="$GOROOT/bin:$GOPATH/bin:/usr/local/go/bin:$PATH"
+  export PATH="$GOPATH/bin:$PATH"
   export GIT_EDITOR=vim
   export EDITOR=vim
   export LSCOLORS='ExGxBxDxCxEgEdxbxgxcxd'
@@ -153,13 +152,5 @@ fi
   fi
 #### END ####
 
-#### TERRAFORM ####
-  ZSH_THEME_TF_PROMPT_PREFIX="%{$fg[white]%}"
-  ZSH_THEME_TF_PROMPT_SUFFIX="%{$reset_color%}"
-  ZSH_THEME_TF_VERSION_PROMPT_PREFIX="%{$fg[white]%}"
-  ZSH_THEME_TF_VERSION_PROMPT_SUFFIX="%{$reset_color%}"
-
-  RPROMPT='$(tf_version_prompt_info)'
-#### END ####
 
 [[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local
