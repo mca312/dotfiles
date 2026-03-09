@@ -5,44 +5,44 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-### Added by Zinit's installer
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
+#### ZSH ####
+  ### Added by Zinit's installer
+  if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+      print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+      command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+      command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+          print -P "%F{33} %F{34}Installation successful.%f%b" || \
+          print -P "%F{160} The clone has failed.%f%b"
+  fi
 
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+  source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+  autoload -Uz _zinit
+  (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
+  # Load a few important annexes, without Turbo
+  # (this is currently required for annexes)
+  zinit light-mode for \
+      zdharma-continuum/zinit-annex-as-monitor \
+      zdharma-continuum/zinit-annex-bin-gem-node \
+      zdharma-continuum/zinit-annex-patch-dl \
+      zdharma-continuum/zinit-annex-rust
 
-### End of Zinit's installer chunk
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-  zinit light zsh-users/zsh-syntax-highlighting
-  zinit light zsh-users/zsh-completions
-  zinit light zsh-users/zsh-autosuggestions
-  zinit light Aloxaf/fzf-tab
+  ### End of Zinit's installer chunk
 
-  #snippets
+  # ZSH plugins
+  zinit ice depth=1; zinit light romkatv/powerlevel10k
+  zinit wait lucid light-mode for \
+      zsh-users/zsh-syntax-highlighting \
+      zsh-users/zsh-completions \
+      zsh-users/zsh-autosuggestions \
+      Aloxaf/fzf-tab
+
+  # Snippets
   zinit snippet OMZP::git
   zinit snippet OMZP::sudo
-  zinit snippet OMZP::archlinux
   zinit snippet OMZP::aws
   zinit snippet OMZP::golang
   zinit snippet OMZP::terraform
-  zinit snippet OMZP::nvm
-  zstyle ':omz:plugins:nvm' lazy yes
-  # zinit snippet OMZP::docker
   zi ice as"completion"
   zi snippet OMZP::docker/completions/_docker
 
@@ -77,6 +77,23 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+
+#### EXPORTS ####
+  export PATH="$HOME/.local/bin:$PATH"
+  export GOPATH="$HOME/go"
+  export GOROOT="$HOME/go/current"
+  export PATH="$GOROOT/bin:$GOPATH/bin:/usr/local/go/bin:$PATH"
+  export GIT_EDITOR=vim
+  export EDITOR=vim
+  export LSCOLORS='ExGxBxDxCxEgEdxbxgxcxd'
+  export LS_COLORS='di=1;34:ln=1;36:so=1;31:pi=1;33:ex=1;32:bd=1;34;46:cd=1;34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43'
+#### END ####
+
+#### FNM ####
+  eval "$(fnm env --use-on-cd --shell zsh)"
+  alias nvm="fnm"
+#### END ####
+
 #### ALIAS ####
   alias ls="ls -G"
   alias lsa="ls -alh"
@@ -97,8 +114,10 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
   alias ogh='open $(git config --get remote.origin.url | sed -E "s#git@github.com:(.*)#https://github.com/\1#" | sed "s/.git$//")'
   alias vi='nvim'
   alias vim='nvim'
-#### END ####
 
+  alias git_branch_show='git remote prune origin && git branch -vv | grep ": gone]"'
+  alias git_branch_clean='git branch -vv | grep ": gone]" | awk "{print \$1}" | xargs git branch -D'
+#### END ####
 
 #### TMUX ####
   _tmuxinator() {
@@ -140,26 +159,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
   ZSH_THEME_TF_VERSION_PROMPT_PREFIX="%{$fg[white]%}"
   ZSH_THEME_TF_VERSION_PROMPT_SUFFIX="%{$reset_color%}"
 
-  RPROMPT='$(tf_prompt_info)'
   RPROMPT='$(tf_version_prompt_info)'
-
-#### END ####
-
-#### EXPORTS ####
-  export PATH=$PATH:/usr/local/go/bin
-  export GOPATH="$HOME/go"
-  export GOROOT="$HOME/go/current"
-  export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
-  export GIT_EDITOR=vim
-  export EDITOR=vim
 #### END ####
 
 [[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local
-
-
-# fnm
-FNM_PATH="/home/mike/.local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="$FNM_PATH:$PATH"
-  eval "`fnm env`"
-fi

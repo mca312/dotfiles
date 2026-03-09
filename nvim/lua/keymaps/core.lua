@@ -83,7 +83,10 @@ M.setup_buffers = function()
   vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
   vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
   vim.keymap.set('n', '<leader>bn', '<cmd> enew <CR>', with_desc 'New') -- new buffer
-  vim.keymap.set('n', '<leader>bx', ':Bdelete!<CR>', with_desc 'Delete') -- close buffer
+  vim.keymap.set('n', '<leader>bx', ':Bdelete!<CR>', with_desc 'Close') -- close buffer
+  vim.keymap.set('n', '<leader>bc', ':BufferLineCloseOthers<CR>', with_desc 'Close All Except Current')
+  vim.keymap.set('n', '<leader>bn', ':BufferLineGroupClose ungrouped<CR>', with_desc 'Close Non Pinned')
+  vim.keymap.set('n', '<leader>bp', ':BufferLineTogglePin<CR>', with_desc 'Toggle Pin')
 end
 
 -- Tab management
